@@ -4,3 +4,4 @@ encrypt.js
 decrypt.js
 .env
 .DS_Store
+output.pdf
