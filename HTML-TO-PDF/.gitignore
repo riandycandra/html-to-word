@@ -1,4 +1,4 @@
-/node_modules
+node_modules
 *.pem
 encrypt.js
 decrypt.js
