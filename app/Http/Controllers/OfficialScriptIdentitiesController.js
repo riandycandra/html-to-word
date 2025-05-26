@@ -4,6 +4,7 @@ const {
 } = require('../../Models');
 
 const puppeteer = require('puppeteer');
+const fs = require('fs');
 
 const show = async (req, res) => {
   console.log(req.params.number)
@@ -72,11 +73,6 @@ const show = async (req, res) => {
       'Content-Length': pdfBuffer.length,
     });
     return res.send(pdfBuffer);
-
-    console.log('✅ PDF created: output.pdf');
-    console.log('✅ Official script identity found:', officialScriptIdentities.Id);
-
-    return res.send(officialScriptIdentities.Content);
     
   } catch (error) {
     console.error('Error fetching official script identities:', error);
@@ -84,6 +80,11 @@ const show = async (req, res) => {
   }
 }
 
+const toDocx = async (req, res) => {
+  return res.status(501).json({ error: 'Not implemented yet' });
+}
+
 module.exports = {
-  show
+  show,
+  toDocx
 }

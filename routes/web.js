@@ -10,5 +10,6 @@ const {
 router.get('/', (req, res) => { res.send('Hello world') })
 
 router.get('/officialscriptidentities/:number', OfficialScriptIdentitiesController.show);
+router.get('/to-docx/:number', OfficialScriptIdentitiesController.toDocx);
 
 module.exports = router;
