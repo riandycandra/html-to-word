@@ -7,3 +7,4 @@ decrypt.js
 output.*
 input.*
 convert.py
+.DS_Store

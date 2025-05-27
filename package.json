@@ -1,19 +1,27 @@
 {
   "dependencies": {
+    "@azure/msal-node": "^3.5.3",
+    "@microsoft/microsoft-graph-client": "^3.0.7",
     "app-module-path": "^2.2.0",
+    "axios": "^1.9.0",
     "compression": "^1.8.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
+    "form-data": "^4.0.2",
     "html-docx-js": "^0.3.1",
+    "mime": "^2.6.0",
     "morgan": "^1.10.0",
     "multer": "^2.0.0",
     "mysql2": "^3.14.1",
+    "open": "^10.1.2",
     "pg": "^8.16.0",
     "pg-hstore": "^2.3.4",
     "puppeteer": "^24.9.0",
+    "request": "^2.88.2",
     "sequelize": "^6.37.7",
-    "sequelize-cli": "^6.6.3"
+    "sequelize-cli": "^6.6.3",
+    "simple-oauth2": "^5.1.0"
   }
 }
