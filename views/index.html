@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untitled</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 90px;
+            font-weight: normal;
+            color: #4285f4;
+            margin-bottom: 30px;
+            letter-spacing: -5px;
+        }
+
+        .logo .g1 { color: #4285f4; }
+        .logo .o1 { color: #ea4335; }
+        .logo .o2 { color: #fbbc05; }
+        .logo .g2 { color: #4285f4; }
+        .logo .l { color: #34a853; }
+        .logo .e { color: #ea4335; }
+
+        .search-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 44px;
+            border: 1px solid #dfe1e5;
+            border-radius: 24px;
+            padding: 0 20px;
+            font-size: 16px;
+            outline: none;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .search-input:hover {
+            box-shadow: 0 2px 5px 1px rgba(64,60,67,.16);
+            border-color: rgba(223,225,229,0);
+        }
+
+        .search-input:focus {
+            box-shadow: 0 2px 5px 1px rgba(64,60,67,.16);
+            border-color: rgba(223,225,229,0);
+        }
+
+        .button-container {
+            margin-bottom: 40px;
+        }
+
+        .submit-btn {
+            background-color: #f8f9fa;
+            border: 1px solid #f8f9fa;
+            border-radius: 4px;
+            color: #3c4043;
+            font-size: 14px;
+            margin: 11px 4px;
+            padding: 0 20px;
+            line-height: 27px;
+            height: 36px;
+            min-width: 54px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            transition: box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            box-shadow: 0 1px 1px rgba(0,0,0,.1);
+            background-color: #f8f9fa;
+            border: 1px solid #dadce0;
+            color: #202124;
+        }
+
+        .submit-btn:focus {
+            outline: none;
+            border: 1px solid #4285f4;
+        }
+
+        .lorem-text {
+            max-width: 500px;
+            margin: 0 auto;
+            color: #5f6368;
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: justify;
+            display: none;
+        }
+
+        .logo {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            height: 40px;
+            font-size: 14px;
+        }
+        
+        .lorem-text {
+            font-size: 13px;
+            text-align: center;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="OfficialScriptIdentity ID Here..." id="searchInput">
+        </div>
+        
+        <div class="button-container">
+            <button class="submit-btn" id="submitBtn">Generate</button>
+        </div>
+        
+        <div class="lorem-text" id="responseText">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+
+      $('#submitBtn').on('click', function(e) {
+
+        $('#responseText').hide();
+
+        $(this).prop('disabled', true);
+        // animate button text using font awesome spinner
+        $(this).html('<i class="fas fa-spinner fa-spin"></i> Generating...');
+
+        let id = $('#searchInput').val().trim();
+
+        let url = `http://localhost:3000/officialscriptidentities/${id}`;
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(data) {
+                let link = data.upload.fileUrl;
+
+                let text = `<a href="${link}" target="_blank">Click here to open file : ${data.result.fileName}</a>`;
+
+                $('#responseText').html(text).show();
+                $('#submitBtn').prop('disabled', false);
+                $('#submitBtn').text('Generate');
+                $('#searchInput').focus();
+            },
+            error: function() {
+                alert('Error fetching data. Please try again.');
+            }
+        })
+
+        e.preventDefault();
+      })
+
+      // Focus on search input when page loads
+      window.addEventListener('load', function() {
+          searchInput.focus();
+      });
+    </script>
+</body>
+</html>

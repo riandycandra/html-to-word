@@ -4,12 +4,23 @@ const {
 
 const service = require('../../Services/OfficialScriptIdentitiesService');
 
+const index = async (req, res) => {
+  // load file index.html in views
+  try {
+    // instead of using a template engine, we can send a static HTML file
+    res.sendFile('index.html', { root: 'views' });
+  } catch (error) {
+    console.error('Error rendering index page:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 const show = async (req, res) => {
   console.log(req.params.number)
   try {
     const officialScriptIdentities = await OfficialScriptIdentities.findOne({
       where: {
-        Id: req.params.number
+        [OfficialScriptIdentities.rawAttributes.Number.field]: req.params.number
       }
     });
     
@@ -38,6 +49,7 @@ const toDocx = async (req, res) => {
 }
 
 module.exports = {
+  index,
   show,
   toDocx
 }

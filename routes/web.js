@@ -7,8 +7,7 @@ const {
   OfficialScriptIdentitiesController
 } = require('../app/Http/Controllers');
 
-router.get('/', (req, res) => { res.send('Hello world') })
-
+router.get('/', OfficialScriptIdentitiesController.index);
 router.get('/officialscriptidentities/:number', OfficialScriptIdentitiesController.show);
 router.get('/to-docx/:number', OfficialScriptIdentitiesController.toDocx);
 

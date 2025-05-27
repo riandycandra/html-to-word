@@ -38,12 +38,12 @@ const convertHtmlToPdf = async (officialScriptIdentities) =>{
       width: '210mm',
       height: `${bodyHeight}px`,
       margin: {
-        top: '1.5cm',
-        bottom: '1.5cm',
-        left: '2.5cm',
-        right: '2.5cm',
+        top: '2cm',
+        bottom: '2cm',
+        left: '2cm',
+        right: '2cm',
       },
-    });
+        });
 
     await browser.close();
 
