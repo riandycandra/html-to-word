@@ -16,7 +16,23 @@ const index = async (req, res) => {
 }
 
 const show = async (req, res) => {
-  console.log(req.params.number)
+
+  let number = req.params.number;
+  let emails = req.body.emails;
+
+  if (!number) {
+    return res.status(400).json({ error: 'Number parameter is required' });
+  }
+
+  if (!emails) {
+    return res.status(400).json({ error: 'Emails parameter is required' });
+  }
+
+  emails = emails.split(',').map(email => email.trim());
+  if (emails.length === 0) {
+    return res.status(400).json({ error: 'At least one email is required' });
+  }
+
   try {
     const officialScriptIdentities = await OfficialScriptIdentities.findOne({
       where: {
@@ -30,7 +46,7 @@ const show = async (req, res) => {
 
     const result = await service.convertHtmlToPdf(officialScriptIdentities);
     const convert = await service.convertPdfToDocx(result.filePath);
-    const upload = await service.uploadToOneDrive(convert);
+    const upload = await service.uploadToOneDrive(convert, emails);
 
     // delete the temporary files
     await service.deleteFile(result.filePath);

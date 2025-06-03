@@ -133,7 +133,11 @@
     <div class="container">
         
         <div class="search-container">
-            <input type="text" class="search-input" placeholder="OfficialScriptIdentity ID Here..." id="searchInput">
+            <input type="text" class="search-input" placeholder="Nomor Surat, cth : DRAFT.10xxx.xxxxx" id="searchInput">
+        </div>
+
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Email, dipisahkan dgn koma, cth : email1@gmail.com,email2@gmail.com" id="emailInput">
         </div>
         
         <div class="button-container">
@@ -163,7 +167,10 @@
 
         $.ajax({
             url: url,
-            type: 'GET',
+            type: 'POST',
+            data: {
+                emails: $('#emailInput').val().trim()
+            },
             success: function(data) {
                 let link = data.upload.fileUrl;
 
@@ -174,8 +181,12 @@
                 $('#submitBtn').text('Generate');
                 $('#searchInput').focus();
             },
-            error: function() {
-                alert('Error fetching data. Please try again.');
+            error: function(response) {
+                $('#submitBtn').prop('disabled', false);
+                $('#submitBtn').text('Generate');
+
+                alert('Error: ' + response.responseJSON.error || 'Something went wrong. Please try again.');
+                $('#searchInput').focus();
             }
         })
 

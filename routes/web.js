@@ -8,7 +8,7 @@ const {
 } = require('../app/Http/Controllers');
 
 router.get('/', OfficialScriptIdentitiesController.index);
-router.get('/officialscriptidentities/:number', OfficialScriptIdentitiesController.show);
+router.post('/officialscriptidentities/:number', OfficialScriptIdentitiesController.show);
 router.get('/to-docx/:number', OfficialScriptIdentitiesController.toDocx);
 
 module.exports = router;

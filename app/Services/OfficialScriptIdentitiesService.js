@@ -92,7 +92,7 @@ const getAccessToken = async () => {
   return data.access_token;
 }
 
-const uploadFile = async (accessToken, filePath, fileName) => {
+const uploadFile = async (accessToken, filePath, fileName, targetEmail) => {
   const fileContent = fs.readFileSync(filePath);
 
   const uploadUrl = `https://graph.microsoft.com/v1.0/users/${userUPN}/drive/root:/Uploads/${fileName}:/content`;
@@ -105,6 +105,26 @@ const uploadFile = async (accessToken, filePath, fileName) => {
   });
 
   console.log('Upload successful:', data.webUrl);
+
+  // Assign permission to one email
+  const permissionUrl = `https://graph.microsoft.com/v1.0/users/${userUPN}/drive/root:/Uploads/${fileName}:/invite`;
+  const recipients = Array.isArray(targetEmail)
+    ? targetEmail.map(email => ({ email }))
+    : [{ email: targetEmail }];
+
+    console.log(recipients);
+
+  await axios.post(permissionUrl, {
+    requireSignIn: true,
+    sendInvitation: true,
+    roles: ['read'],
+    recipients
+  }, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
+    }
+  });
 
   return data.webUrl;
 }
@@ -126,11 +146,11 @@ const createPublicLink = async (accessToken, userUPN, itemPath) => {
   return data.link.webUrl;
 }
 
-const uploadToOneDrive = async (filePath) => {
+const uploadToOneDrive = async (filePath, emails) => {
   try {
     let fileName = path.basename(filePath);
     const token = await getAccessToken();
-    const fileUrl = await uploadFile(token, filePath, fileName);
+    const fileUrl = await uploadFile(token, filePath, fileName, emails);
     const publicLink = await createPublicLink(token, userUPN, 'Uploads/' + fileName);
 
     return {
